@@ -17,9 +17,11 @@ public class BookstoreAppGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
 
+        
         // Create a JPanel for input fields
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(4, 2));
+        //  inputPanel.setBackground(Color.CYAN); // Set the background color here
 
         JLabel titleLabel = new JLabel("Title:");
         titleField = new JTextField(20);
@@ -31,6 +33,7 @@ public class BookstoreAppGUI {
         priceField = new JTextField(10);
 
         JButton addButton = new JButton("Add Book");
+        addButton.setBackground(Color.BLUE);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,6 +75,23 @@ public class BookstoreAppGUI {
             JOptionPane.showMessageDialog(null, "Book added to the database.");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+
+
+            
+
+            // JPanel panel = new JPanel();
+            // panel.setBackground(Color.RED);
+    
+            // // Create a label with the error message
+            // JLabel label = new JLabel( "Error: " + e.getMessage());
+            // label.setForeground(Color.WHITE); // Set text color to white
+    
+            // panel.add(label);
+    
+            // // Show the custom JPanel in a JOptionPane
+            // JOptionPane.showMessageDialog(null, panel, "Error", JOptionPane.ERROR_MESSAGE);
+
+
 
             // Display an error message in case of an exception
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

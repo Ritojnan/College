@@ -1,5 +1,5 @@
 {
     "java.project.referencedLibraries": [
-        "lib/postgresql-42.6.0.jar"
+        "lib/postgresql-<version>.jar"
     ]
 }

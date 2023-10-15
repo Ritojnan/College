@@ -1,0 +1,49 @@
+text,intent
+How do I change my password?,account.password.change
+What's your company's mission statement?,company.mission
+Where can I find the user manual?,link.documentation
+Tell me about your pricing plans,pricing.info
+How can I contact customer support?,link.contact
+What is your return policy?,return.policy
+Help me with my account settings,account.settings.help
+What are your product features?,product.features
+I want to cancel my subscription,subscription.cancel
+How do I track my order?,order.tracking
+Do you offer discounts for students?,discounts.students
+Tell me about your privacy policy,privacy.policy
+Can I schedule a demo?,demo.schedule
+What payment methods do you accept?,payment.methods
+I need help with my account,account.help
+What's your refund process?,refund.process
+Where can I find your mobile app?,link.mobile.app
+What are your office hours?,business.hours
+Is there a free trial available?,free.trial
+Tell me about your team,company.team
+What's your return address?,return.address
+How do I update my billing information?,billing.update
+Can I change my subscription plan?,subscription.change
+What's your support email?,contact.email
+What's your CEO's name?,company.ceo
+I'm locked out of my account,account.locked
+How do I unsubscribe from emails?,unsubscribe.emails
+What are your shipping options?,shipping.options
+How do I apply for a job?,career.application
+Tell me about your product warranty,product.warranty
+Where can I find your social media links?,link.social.media
+How do I report a bug?,bug.report
+Tell me about your company history,company.history
+What's your main office location?,office.location
+How can I collaborate with your team?,collaboration.options
+What's your customer satisfaction rate?,customer.satisfaction
+How do I place an order?,order.place
+Do you have a mobile app for iOS?,mobile.app.ios
+Tell me about your partnership programs,partnerships
+What's your company's vision?,company.vision
+How do I reset my password?,account.password.reset
+Where can I find your blog?,link.blog
+I want to upgrade my subscription,subscription.upgrade
+What's your support phone number?,contact.phone
+How do I download your software?,software.download
+Tell me about your product reviews,product.reviews
+What's your technical support team's expertise?,tech.support.expertise
+I want to return a product,return.request
