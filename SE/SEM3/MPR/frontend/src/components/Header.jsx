@@ -1,4 +1,4 @@
-import { Avatar, Flex, HStack, IconButton, Tooltip, Button } from "@chakra-ui/react";
+import { Avatar, Flex, HStack, IconButton, Tooltip, Button, Icon } from "@chakra-ui/react";
 import {
   Menu,
   MenuButton,
@@ -15,9 +15,29 @@ import {
   NewChatIcon,
   StatusIcon,
 } from "../assets/icons";
+import {LuLogOut, LuSettings, LuUserCircle2} from 'react-icons/lu'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
+} from '@chakra-ui/react'
 
 
 export function Header(props) {
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const openModal=()=>{
+
+    console.log("NNN")
+    onOpen();
+  }
+
   return (
     <Flex
       bg="#F9F9F9"
@@ -36,6 +56,35 @@ export function Header(props) {
       />
       <HStack spacing="3">
         
+      <Tooltip
+          shouldWrapChildren
+          label="Invites"
+          bg="#eae6df"
+          color="black"
+          fontSize="xs"
+        >
+   <IconButton onClick={openModal} bg={"transparent"} aria-label='New Chat' icon={<LuUserCircle2 size={22}/>} />
+          
+        </Tooltip>
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create a New Chat</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* Add your chat creation form or content here */}
+            This is where you can create a new chat.
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            {/* Add a button to submit the new chat */}
+            <Button variant="ghost">Create</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
         <Tooltip
           shouldWrapChildren
           label="New Chat"
@@ -43,9 +92,27 @@ export function Header(props) {
           color="black"
           fontSize="xs"
         >
-           <NewChatIcon />
+   <IconButton onClick={openModal} bg={"transparent"} aria-label='New Chat' icon={<NewChatIcon  />} />
+          
         </Tooltip>
-
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create a New Chat</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* Add your chat creation form or content here */}
+            This is where you can create a new chat.
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            {/* Add a button to submit the new chat */}
+            <Button variant="ghost">Create</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
         <Tooltip
           shouldWrapChildren
           label="Menu"
@@ -58,8 +125,8 @@ export function Header(props) {
               <MenuIcon />
             </MenuButton>
             <MenuList>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Log out</MenuItem>
+              <MenuItem><LuSettings size={16}/>&nbsp;Settings</MenuItem>
+              <MenuItem><LuLogOut size={16}/>&nbsp; Log out</MenuItem>
             </MenuList>
           </Menu>
         </Tooltip>

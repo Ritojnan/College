@@ -35,7 +35,7 @@ import {
               </HStack>
             </Box>
             <chakra.time fontSize="xs" color="#667781">
-              {date}
+              {date}+"jj"
             </chakra.time>
           </Flex>
         </Box>

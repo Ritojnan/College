@@ -1,6 +1,6 @@
 export const chatData = [
   {
-    name: 'Erdem',
+    name: 'Erdemhhhhh',
     src: 'https://randomuser.me/api/portraits/men/52.jpg',
     message: 'tamamdır. belgeleri sana gönderiyorum.',
     date: '16:20',

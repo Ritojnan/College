@@ -1,22 +1,16 @@
-import React from "react";
 import { Box, VStack } from "@chakra-ui/react";
 import Message from "./Message";
 
-const messages = [
-  { id: 1, text: "Hello!", isSent: true },
-  { id: 2, text: "Hi there! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat eius asperiores cum alias doloremque obcaecati ipsum, dolores nesciunt culpa ea!", isSent: false },
-  // Add more messages here
-];
-
-const ChatWindow = () => {
+const ChatWindow = (props) => {
+  const messages = props.messages;
   return (
-    <VStack spacing="3" p="4" align="stretch" overflowY="auto" maxH="100vh" flexGrow={1}>
-
-      {messages.map(message => (
-        
-        <Message key={message.id} text={message.text} isSent={message.isSent} width />
-      ))}
-    </VStack>
+    <Box maxH="100vh" overflowY="auto" flexGrow={1}>
+      <VStack spacing="3" p="4" align="stretch">
+        {messages.map((message) => (
+          <Message key={message.id} text={message.text} isSent={message.isSent} />
+        ))}
+      </VStack>
+    </Box>
   );
 };
 

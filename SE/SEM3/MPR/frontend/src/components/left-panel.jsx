@@ -4,7 +4,6 @@ import { Header } from './Header';
 import { SearchPanel } from './search-panel';
 import React, { useState } from "react";
 import { Input, VStack } from "@chakra-ui/react";
-import SideCard from "./SideCard";
 import { SearchIcon } from '../assets/icons';
 
 import {
@@ -15,6 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { DeliveredIcon } from "../assets/icons";
+import { Link } from 'react-router-dom';
 
 
 
@@ -104,10 +104,10 @@ const mockData = [
     seen: false,
   },
 ];
-const chatData=mockData;
 
 export function Chat({ name, message, date, seen, src, ...rest }) {
   return (
+    <Link to={`${name}`}>
     <HStack
       _hover={{
         cursor: "pointer",
@@ -134,6 +134,7 @@ export function Chat({ name, message, date, seen, src, ...rest }) {
         </Flex>
       </Box>
     </HStack>
+    </Link>
   );
 }
 

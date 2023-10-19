@@ -7,7 +7,6 @@ import {
     HStack,
     Text,
   } from '@chakra-ui/react';
-import { Outlet } from 'react-router-dom';
   
   export function RightPanel(props) {
     return (
@@ -34,8 +33,6 @@ import { Outlet } from 'react-router-dom';
           </Box>
           <AbsoluteCenter axis='horizontal' bottom='10' flex='1' mt='10'>
             <HStack justifyItems='baseline' color='#8696a0'>
-              <Text>HHHH</Text>
-              <Outlet/>
             </HStack>
           </AbsoluteCenter>
         </Flex>

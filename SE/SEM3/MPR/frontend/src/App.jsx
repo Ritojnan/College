@@ -13,13 +13,16 @@ import NotFound from './pages/NotFound.jsx'
 import Careers, { careersLoader } from './pages/careers/Careers'
 import CareerDetails, { careerDetailsLoader } from "./pages/careers/CareerDetails"
 import CareersError from './pages/careers/CareersError'
-import ChatApp from './components/ChatApp'
 // layouts
 import RootLayout from './layouts/RootLayout'
 import HelpLayout from './layouts/HelpLayout'
 import CareersLayout from './layouts/CareersLayout.jsx'
-import ChatLayout from "./layouts/ChatLayout"
+import ChatLayout from './layouts/ChatLayout'
+
 import AuthPage from "./pages/AuthPage"
+import LoadingScreen from "./components/LoadingScreen"
+import { RightPanel } from "./components/right-panel"
+import ChatApp from "./components/ChatApp"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,10 +31,14 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="auth" element={<AuthPage />}/>
       <Route path="*" element={<NotFound />} />
+      <Route path="chat" element={<LoadingScreen />} >
+      <Route index element={<RightPanel />} />
       <Route
           path=":id"
-          element={<ChatApp/>}
+          element={<ChatLayout/>}
         />
+        </Route>
+      
       <Route path="help" element={<HelpLayout />}>
         <Route path="contact" element={<Contact />} action={contactAction} />
       </Route>
@@ -47,12 +54,7 @@ const router = createBrowserRouter(
           loader={careerDetailsLoader}
         />
       </Route>
-      <Route
-        path="chats"
-        element={<ChatLayout />}
-      >
-
-      </Route>
+      
     </Route>
   )
 )

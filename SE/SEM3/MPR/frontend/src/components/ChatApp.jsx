@@ -1,16 +1,17 @@
 import React from "react";
 import { Box, Divider, VStack,Flex } from "@chakra-ui/react";
 import ChatWindow from "./ChatWindow";
-import ChatInput from "./ChatInput";
-import ChatComponent from "./ChatComponent";
 import ImageUpload from "./ImageUpload";
 import ImageGallery from "./ImageGallery";
+import { useParams } from "react-router-dom";
 
 const ChatApp = () => {
-  const handleSendMessage = message => {
-    // You can implement your actual sending logic here
-    console.log("Sending message:", message);
-  };
+//   const { id } = useParams()
+// console.log(id)
+//   const handleSendMessage = message => {
+//     // You can implement your actual sending logic here
+//     console.log("Sending message:", message);
+//   };
 
   return (
 <>
@@ -23,10 +24,9 @@ const ChatApp = () => {
     >
       <ChatWindow />
       <Divider />
-      <ImageUpload/>
-      <ImageGallery/>
-      <ChatInput onSendMessage={handleSendMessage} />
-      <ChatComponent/>
+      {/* <ImageUpload/>
+      <ImageGallery/> */}
+      <ChatInput  />
       
     </Box>  
 

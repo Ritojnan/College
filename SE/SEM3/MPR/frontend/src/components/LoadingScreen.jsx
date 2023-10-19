@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { LeftPanel } from "./left-panel";
 import { RightPanel } from "./right-panel";
+import { Outlet } from "react-router-dom";
 
 const LoadingScreen = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ const LoadingScreen = () => {
 
 
   return (
-    <>
+    
 
     <Box height="100vh">
       {loading ? (
@@ -84,7 +85,7 @@ const LoadingScreen = () => {
       ) : (
         <LeftPanel />
       )}
-      <RightPanel />
+      <Outlet/>
     </Flex>
 
         </>
@@ -92,7 +93,7 @@ const LoadingScreen = () => {
     </Box>
     
    
-    </>
+
   );
 };
 
