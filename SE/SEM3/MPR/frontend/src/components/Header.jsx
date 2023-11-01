@@ -1,4 +1,12 @@
-import { Avatar, Flex, HStack, IconButton, Tooltip, Button, Icon } from "@chakra-ui/react";
+import {
+  Avatar,
+  Flex,
+  HStack,
+  IconButton,
+  Tooltip,
+  Button,
+  Icon,
+} from "@chakra-ui/react";
 import {
   Menu,
   MenuButton,
@@ -8,14 +16,14 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import {
   CommunityIcon,
   MenuIcon,
   NewChatIcon,
   StatusIcon,
 } from "../assets/icons";
-import {LuLogOut, LuSettings, LuUserCircle2} from 'react-icons/lu'
+import { LuLogOut, LuSettings, LuUserCircle2 } from "react-icons/lu";
 import {
   Modal,
   ModalOverlay,
@@ -24,19 +32,24 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
-} from '@chakra-ui/react'
-
-
+  useDisclosure,
+} from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+} from "@chakra-ui/react";
+import { useRef } from "react";
 export function Header(props) {
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const openModal=()=>{
-
-    console.log("NNN")
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+  const openModal = () => {
+    console.log("NNN");
     onOpen();
-  }
+  };
 
   return (
     <Flex
@@ -55,35 +68,38 @@ export function Header(props) {
         src="https://randomuser.me/api/portraits/men/44.jpg"
       />
       <HStack spacing="3">
-        
-      <Tooltip
+        <Tooltip
           shouldWrapChildren
           label="Invites"
           bg="#eae6df"
           color="black"
           fontSize="xs"
         >
-   <IconButton onClick={openModal} bg={"transparent"} aria-label='New Chat' icon={<LuUserCircle2 size={22}/>} />
-          
+          <IconButton
+            onClick={openModal}
+            bg={"transparent"}
+            aria-label="New Chat"
+            icon={<LuUserCircle2 size={22} />}
+          />
         </Tooltip>
         <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create a New Chat</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {/* Add your chat creation form or content here */}
-            This is where you can create a new chat.
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            {/* Add a button to submit the new chat */}
-            <Button variant="ghost">Create</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create a New Chat or Group</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {/* Add your chat creation form or content here */}
+              This is where you can create a xxxxxxxxnew chat.
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Closess
+              </Button>
+              {/* Add a button to submit the new chat */}
+              <Button variant="ghost">Create</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
         <Tooltip
           shouldWrapChildren
@@ -92,27 +108,31 @@ export function Header(props) {
           color="black"
           fontSize="xs"
         >
-   <IconButton onClick={openModal} bg={"transparent"} aria-label='New Chat' icon={<NewChatIcon  />} />
-          
+          <IconButton
+            onClick={openModal}
+            bg={"transparent"}
+            aria-label="New Chat"
+            icon={<NewChatIcon />}
+          />
         </Tooltip>
         <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create a New Chat</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {/* Add your chat creation form or content here */}
-            This is where you can create a new chat.
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            {/* Add a button to submit the new chat */}
-            <Button variant="ghost">Create</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create a New Chat</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {/* Add your chat creation form or content here */}
+              This is where you can create a new chat.
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Close
+              </Button>
+              {/* Add a button to submit the new chat */}
+              <Button variant="ghost">Create</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <Tooltip
           shouldWrapChildren
           label="Menu"
@@ -125,14 +145,44 @@ export function Header(props) {
               <MenuIcon />
             </MenuButton>
             <MenuList>
-              <MenuItem><LuSettings size={16}/>&nbsp;Settings</MenuItem>
-              <MenuItem><LuLogOut size={16}/>&nbsp; Log out</MenuItem>
+              <MenuItem>
+                <LuSettings size={16} />
+                &nbsp;Settings
+              </MenuItem>
+              <MenuItem onClick={onOpen}>
+                <LuLogOut size={16} />
+                &nbsp; Log out
+              </MenuItem>
             </MenuList>
+
           </Menu>
         </Tooltip>
-
       </HStack>
+
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+  <AlertDialogOverlay>
+    <AlertDialogContent>
+      <AlertDialogHeader>Log out</AlertDialogHeader>
+      <AlertDialogBody>
+        Are you sure you want to log out?
+      </AlertDialogBody>
+      <AlertDialogFooter>
+        <Button ref={cancelRef} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button colorScheme="red" onClick={
+          () => {
+            localStorage.removeItem("authtoken");
+            location.reload();
+          }
+        }>
+          Confirm
+        </Button>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialogOverlay>
+</AlertDialog>
+
     </Flex>
   );
 }
-

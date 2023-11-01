@@ -13,6 +13,7 @@ public class MinMaxCalculator {
         double min = Math.min(num1, Math.min(num2, num3));
         double max = Math.max(num1, Math.max(num2, num3));
 
+        System.out.println("Ritojnan Mukherjee C23 2203114");
         System.out.println("Minimum: " + min);
         System.out.println("Maximum: " + max);
     }

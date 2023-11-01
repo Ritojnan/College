@@ -12,12 +12,87 @@ import java.sql.SQLException;
 
 public class BookstoreAppGUI {
 
-  
-    private JTextField titleField, authorField, priceField, idField;
+    private JTextField titleField, authorField, priceField, idField, quantityField,usernameField, passwordField, isbnField, publisherField; // New fields for ISBN and publisher
     private JTable dataTable;
     private DefaultTableModel tableModel;
+    private JComboBox<String> quantityActionComboBox;
 
     public BookstoreAppGUI() {
+        JFrame loginFrame = new JFrame("Login");
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.setSize(400, 400);
+        loginFrame.setLayout(new BorderLayout());
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        ImageIcon logoImageIcon = new ImageIcon("logo.jfif");
+
+        loginFrame.setIconImage(logoImageIcon.getImage());
+        Image logoImage = logoImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+
+        ImageIcon scaledLogoImageIcon = new ImageIcon(logoImage);
+
+        JLabel logoLabel = new JLabel(scaledLogoImageIcon);
+
+        JLabel titleLabel = new JLabel("Bookstore App");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        headerPanel.add(logoLabel);
+        headerPanel.add(titleLabel);
+
+        loginFrame.add(headerPanel, BorderLayout.NORTH);
+
+        JPanel loginPanel = new JPanel();
+        loginPanel.setBorder(BorderFactory.createTitledBorder("Login"));
+
+        loginPanel.setLayout(new GridLayout(3, 2));
+        // loginPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JLabel usernameLabel = new JLabel("Username:");
+        usernameField = new JTextField(10);
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordField = new JPasswordField(10);
+
+        JButton loginButton = new JButton("Login");
+        loginButton.setBackground(new Color(0, 102, 204));
+        loginButton.setForeground(Color.WHITE);
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(((JPasswordField) passwordField).getPassword());
+                if (authenticateUser(username, password)) {
+                    loginFrame.dispose();
+                    createMainGUI();
+                } else {
+                    showErrorDialog("Invalid username or password.");
+                }
+            }
+        });
+
+        loginPanel.add(usernameLabel);
+        loginPanel.add(usernameField);
+        loginPanel.add(passwordLabel);
+        loginPanel.add(passwordField);
+        loginPanel.add(new JLabel(""));
+        loginPanel.add(loginButton);
+
+        loginFrame.add(loginPanel, BorderLayout.CENTER);
+
+        loginFrame.setVisible(true);
+    }
+
+    private boolean authenticateUser(String username, String password) {
+        // authentication logic here
+        // Check the username and password against a database.
+        // Return true if the user is authenticated, false otherwise.
+        return (username.equals("admin") && password.equals("1234"));
+    }
+
+    private void createMainGUI() {
         JFrame frame = new JFrame("Bookstore App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 400);
@@ -26,8 +101,8 @@ public class BookstoreAppGUI {
         ImageIcon imgIcon = new ImageIcon("logo.jfif");
         frame.setIconImage(imgIcon.getImage());
 
-        // Create a JPanel for input fields
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+        //JPanel for input fields
+        JPanel inputPanel = new JPanel(new GridLayout(7, 2));
         inputPanel.setBorder(BorderFactory.createTitledBorder("Add a Book"));
 
         JLabel titleLabel = new JLabel("Title:");
@@ -39,36 +114,60 @@ public class BookstoreAppGUI {
         JLabel priceLabel = new JLabel("Price:");
         priceField = new JTextField(10);
 
+        JLabel quantityLabel = new JLabel("Quantity:");
+        quantityField = new JTextField(10);
+
+        JLabel isbnLabel = new JLabel("ISBN:"); 
+        isbnField = new JTextField(20); 
+    
+        JLabel publisherLabel = new JLabel("Publisher:"); 
+        publisherField = new JTextField(20);     
+
         JButton addButton = new JButton("Add Book");
         addButton.setBackground(new Color(0, 102, 204));
         addButton.setForeground(Color.WHITE);
         addButton.addActionListener(e -> addBookToDatabase());
 
+        inputPanel.add(isbnLabel); 
+        inputPanel.add(isbnField); 
+
         inputPanel.add(titleLabel);
         inputPanel.add(titleField);
+
         inputPanel.add(authorLabel);
         inputPanel.add(authorField);
+        
+        inputPanel.add(publisherLabel); 
+        inputPanel.add(publisherField);  
+
         inputPanel.add(priceLabel);
         inputPanel.add(priceField);
+
+        inputPanel.add(quantityLabel);
+        inputPanel.add(quantityField);
+        
         inputPanel.add(new JLabel(""));
         inputPanel.add(addButton);
 
-        // Create a JPanel for displaying data
+        //JPanel for displaying data
         JPanel dataPanel = new JPanel(new BorderLayout());
         dataPanel.setBorder(BorderFactory.createTitledBorder("Book List"));
 
         tableModel = new DefaultTableModel();
         dataTable = new JTable(tableModel);
         tableModel.addColumn("ID");
+        tableModel.addColumn("ISBN");
         tableModel.addColumn("Title");
         tableModel.addColumn("Author");
+        tableModel.addColumn("Publisher");
         tableModel.addColumn("Price");
+        tableModel.addColumn("Quantity(In Stock)");
 
         dataPanel.add(new JScrollPane(dataTable), BorderLayout.CENTER);
 
-        // Create a JPanel for deleting a book
-        JPanel deletePanel = new JPanel(new GridLayout(1, 3));
-        deletePanel.setBorder(BorderFactory.createTitledBorder("Delete a Book"));
+        //JPanel for deleting a book
+        JPanel deletePanel = new JPanel(new GridLayout(1, 4));
+        deletePanel.setBorder(BorderFactory.createTitledBorder("Delete/Manage a Book"));
 
         JLabel idLabel = new JLabel("ID:");
         idField = new JTextField(10);
@@ -78,11 +177,23 @@ public class BookstoreAppGUI {
         deleteButton.setForeground(Color.WHITE);
         deleteButton.addActionListener(e -> deleteBookFromDatabase());
 
+        JLabel quantityActionLabel = new JLabel("Quantity:");
+
+        quantityActionComboBox = new JComboBox<>(new String[] { "Increment", "Decrement" });
+        quantityActionComboBox.setSelectedIndex(0);
+
+        JButton manageQuantityButton = new JButton("Manage Quantity");
+        manageQuantityButton.setBackground(new Color(0, 153, 51));
+        manageQuantityButton.setForeground(Color.WHITE);
+        manageQuantityButton.addActionListener(e -> manageQuantity());
+
         deletePanel.add(idLabel);
         deletePanel.add(idField);
         deletePanel.add(deleteButton);
+        deletePanel.add(quantityActionLabel);
+        deletePanel.add(quantityActionComboBox);
+        deletePanel.add(manageQuantityButton);
 
-        // Add input, data, and delete panels to the frame
         frame.add(inputPanel, BorderLayout.NORTH);
         frame.add(dataPanel, BorderLayout.CENTER);
         frame.add(deletePanel, BorderLayout.SOUTH);
@@ -149,12 +260,15 @@ public class BookstoreAppGUI {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
+                String isbn = resultSet.getString("isbn"); // Get ISBN from the result
                 String title = resultSet.getString("title");
                 String author = resultSet.getString("author");
+                String publisher = resultSet.getString("publisher"); // Get Publisher from the result
                 BigDecimal price = resultSet.getBigDecimal("price");
-
+                int quantity = resultSet.getInt("quantity");
+    
                 // Add a row to the table
-                tableModel.addRow(new Object[]{id, title, author, price});
+                tableModel.addRow(new Object[]{id,isbn, title, author,publisher, price, quantity});
             }
 
             resultSet.close();
@@ -171,36 +285,92 @@ public class BookstoreAppGUI {
             String url = "jdbc:postgresql://localhost/bookstore";
             String user = "postgres";
             String password = "admin";
-    
+
             Connection connection = DriverManager.getConnection(url, user, password);
-    
+
             String title = titleField.getText();
             String author = authorField.getText();
             String priceString = priceField.getText();
+            String quantityString = quantityField.getText();
+            String isbn = isbnField.getText(); 
+            String publisher = publisherField.getText();
     
-            // Check if priceString is a valid number
+            // Check if priceString and quantityString are valid numbers
             BigDecimal price;
+            int quantity;
+
             try {
                 price = new BigDecimal(priceString);
+                quantity = Integer.parseInt(quantityString); // Parse quantityString to an int
             } catch (NumberFormatException e) {
-                showErrorDialog("Invalid Price: Please enter a valid numeric price.");
-                return; // Exit the method if the price is invalid
+                showErrorDialog("Invalid Price or Quantity: Please enter valid numeric values.");
+                return; // Exit the method if price or quantity is invalid
             }
-    
-            String insertQuery = "INSERT INTO books (title, author, price) VALUES (?, ?, ?)";
+//bh
+            String insertQuery = "INSERT INTO books (title, author, price, quantity, isbn, publisher) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, author);
             preparedStatement.setBigDecimal(3, price);
+            preparedStatement.setInt(4, quantity);
+            preparedStatement.setString(5, isbn); // Set ISBN
+            preparedStatement.setString(6, publisher); // Set Publisher
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-    
             // Update the table with the new data
-             loadTableData();
+            loadTableData();
 
             // Optionally, provide a success message
             JOptionPane.showMessageDialog(null, "Book added to the database.");
+        } catch (ClassNotFoundException | SQLException e) {
+            showErrorDialog("Error: " + e.getMessage());
+        }
+    }
+
+    private void manageQuantity() {
+        String idString = idField.getText();
+        String quantityAction = (String) quantityActionComboBox.getSelectedItem();
+
+        if (idString.isEmpty()) {
+            showErrorDialog("Please enter a valid ID.");
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            showErrorDialog("Invalid ID: Please enter a valid numeric ID.");
+            return;
+        }
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            String url = "jdbc:postgresql://localhost/bookstore";
+            String user = "postgres";
+            String password = "admin";
+
+            Connection connection = DriverManager.getConnection(url, user, password);
+
+            if (quantityAction.equals("Increment")) {
+                // Increment the quantity
+                String incrementQuery = "UPDATE books SET quantity = quantity + 1 WHERE id = ?";
+                PreparedStatement incrementStatement = connection.prepareStatement(incrementQuery);
+                incrementStatement.setInt(1, id);
+                int rowsUpdated = incrementStatement.executeUpdate();
+                incrementStatement.close();
+            } else {
+                // Decrement the quantity
+                String decrementQuery = "UPDATE books SET quantity = quantity - 1 WHERE id = ?";
+                PreparedStatement decrementStatement = connection.prepareStatement(decrementQuery);
+                decrementStatement.setInt(1, id);
+                int rowsUpdated = decrementStatement.executeUpdate();
+                decrementStatement.close();
+            }
+
+            connection.close();
+            loadTableData();
         } catch (ClassNotFoundException | SQLException e) {
             showErrorDialog("Error: " + e.getMessage());
         }

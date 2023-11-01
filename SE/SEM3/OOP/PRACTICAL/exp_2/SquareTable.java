@@ -2,6 +2,7 @@ package exp_2;
 
 public class SquareTable {
     public static void main(String[] args) {
+        System.out.println("Ritojnan Mukherjee C23 2203114");
         int rows = 5; // Number of rows in the table
         int cols = 5; // Number of columns in the table
         int num = 1;  // Starting number

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Divider, VStack,Flex } from "@chakra-ui/react";
 import ChatWindow from "./ChatWindow";
-import ImageUpload from "./ImageUpload";
-import ImageGallery from "./ImageGallery";
+// import ImageUpload from "./ImageUpload";
+// import ImageGallery from "./ImageGallery";
 import { useParams } from "react-router-dom";
 
 const ChatApp = () => {
@@ -20,7 +20,9 @@ const ChatApp = () => {
       borderWidth="1px"
       borderRadius="md"
       height="100vh"
-      width={{ base: "100%" }} // Set a responsive width
+      width={{ base: "100%" }} 
+      bgColor={"blue.200"}
+      // Set a responsive width
     >
       <ChatWindow />
       <Divider />

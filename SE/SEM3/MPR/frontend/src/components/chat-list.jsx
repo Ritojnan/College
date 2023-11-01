@@ -9,10 +9,13 @@ import {
     Text,
   } from "@chakra-ui/react";
   import { DeliveredIcon } from "../assets/icons";
-  import { chatData } from "../chat-data";
-  
+  import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
+
   // eslint-disable-next-line react/prop-types
-  export function Chat({ name, message, date, seen, src, ...rest }) {
+  export function Chat({ name, message, date, ...rest }) {
+    const { id } = useParams();
+
     return (
       <HStack
         _hover={{
@@ -22,13 +25,15 @@ import {
         py="3"
         {...rest}
       >
-        <Avatar mx="3" name={name} src={src} />
+        <Avatar mx="3" name={name}
+        //  src={src}
+          />
         <Box flex="1" pr="4">
           <Flex justify="space-between" align="baseline">
             <Box>
               <Text fontWeight="medium">{name}</Text>
               <HStack>
-                <DeliveredIcon color={seen ? "#53bdeb" : "#667781"} />
+                {/* <DeliveredIcon color={seen ? "#53bdeb" : "#667781"} /> */}
                 <Text color="#667781" fontSize="sm">
                   {message}
                 </Text>
@@ -53,11 +58,11 @@ import {
         {chatData.map((item, index) => (
           <Chat
             key={index}
-            src={item.src}
+            // src={item.src}
             date={item.date}
             message={item.message}
             name={item.name}
-            seen={item.seen}
+            // seen={item.seen}
           />
         ))}
       </Stack>

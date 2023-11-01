@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   Box,
   Center,
@@ -14,14 +14,17 @@ import {
   TabPanels,
   TabPanel,
   Alert,
+  Link as ChakraLink,
   AlertIcon,
   AlertTitle,
   AlertDescription,
   CloseButton,
   FormControl, // Import FormControl
-  FormLabel, // Import FormLabel
+  FormLabel,
+  Divider, // Import FormLabel
 } from '@chakra-ui/react';
-
+import Multistep from '../components/Multistep';
+import { Link } from 'react-router-dom';
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [signupMessage, setSignupMessage] = useState('');
@@ -57,6 +60,7 @@ const Signup = () => {
           setSignupMessage('Registration successful!');
           // Save authtoken to localStorage
           localStorage.setItem('authtoken', data.authtoken);
+
         } else {
           setSignupMessage(data.error || 'Registration failed.');
         }
@@ -90,6 +94,7 @@ const Signup = () => {
           setLoginMessage('Login successful!');
           // Save authtoken to localStorage
           localStorage.setItem('authtoken', data.authtoken);
+
         } else {
           setLoginMessage(data.error || 'Login failed.');
         }
@@ -110,6 +115,7 @@ const Signup = () => {
   };
 
   return (
+
     <Box
       bgImage="url('/auth_back.jpg')" // Replace with your image path
       bgSize="cover"
@@ -126,69 +132,16 @@ const Signup = () => {
           maxW="400px"
           w="100%"
         >
-          {/* <Image src="/logo.png" alt="Company Logo" mb="4" /> Replace with your logo */}
-          <Tabs isFitted variant="enclosed">
-            <TabList>
-              <Tab>Sign Up</Tab>
-              <Tab>Login</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <VStack spacing="4">
-                  <FormControl id="signupName" isRequired>
-                    <FormLabel>Full Name</FormLabel>
-                    <Input
-                      type="text"
-                      name="signupName"
-                      value={formData.signupName}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl id="signupEmail" isRequired>
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                      type="email"
-                      name="signupEmail"
-                      value={formData.signupEmail}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl id="signupPassword" isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      type="password"
-                      name="signupPassword"
-                      value={formData.signupPassword}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <Button
-                    colorScheme="blue"
-                    type="submit"
-                    onClick={handleSignup}
-                    isLoading={isLoading}
-                  >
-                    Sign Up
-                  </Button>
-                </VStack>
-                {signupMessage && (
-                  <Alert status={signupMessage.includes('successful') ? 'success' : 'error'} mt="4">
-                    <AlertIcon />
-                    <AlertTitle mr={2}>
-                      {signupMessage.includes('successful') ? 'Success!' : 'Error!'}
-                    </AlertTitle>
-                    <AlertDescription>{signupMessage}</AlertDescription>
-                    <CloseButton
-                      onClick={() => setSignupMessage('')}
-                      position="absolute"
-                      right="8px"
-                      top="8px"
-                    />
-                  </Alert>
-                )}
-              </TabPanel>
-              <TabPanel>
-                <VStack spacing="4">
+ <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      mt={3}
+    >
+      <Text color={'blue.600'}   fontSize="3xl">Login</Text>
+    </Box>
+    <Divider my={5}/>
+<VStack spacing="4">
                   <FormControl id="loginEmail" isRequired>
                     <FormLabel>Email</FormLabel>
                     <Input
@@ -215,6 +168,25 @@ const Signup = () => {
                   >
                     Login
                   </Button>
+
+                  <Divider m={3}/>
+        <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      mt={3}
+    >
+      <Text fontSize="xl">Dont have an account?</Text>
+    </Box>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <ChakraLink as={Link} to="/register" fontSize="xl" color={'blue.500'}>
+        Register Now
+      </ChakraLink>
+    </Box>
                 </VStack>
                 {loginMessage && (
                   <Alert status={loginMessage.includes('successful') ? 'success' : 'error'} mt="4">
@@ -222,7 +194,11 @@ const Signup = () => {
                     <AlertTitle mr={2}>
                       {loginMessage.includes('successful') ? 'Success!' : 'Error!'}
                     </AlertTitle>
-                    <AlertDescription>{loginMessage}</AlertDescription>
+                    <AlertDescription>{loginMessage}<Text>
+                      
+                      <ChakraLink as={Link} color={'teal'} to={"chat"}>Go to Chats</ChakraLink>
+                      </Text>
+                      </AlertDescription>
                     <CloseButton
                       onClick={() => setLoginMessage('')}
                       position="absolute"
@@ -231,9 +207,7 @@ const Signup = () => {
                     />
                   </Alert>
                 )}
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+
         </Flex>
       </Center>
     </Box>
