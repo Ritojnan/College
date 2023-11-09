@@ -29,6 +29,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [signupMessage, setSignupMessage] = useState('');
   const [loginMessage, setLoginMessage] = useState('');
+  const [showChatLink,setShowChatLink]=useState(false)
   const [formData, setFormData] = useState({
     signupName: '',
     signupEmail: '',
@@ -42,7 +43,7 @@ const Signup = () => {
 
     setTimeout(async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/createuser', {
+        const response = await fetch('https://gwbd6ngq-5000.inc1.devtunnels.ms/api/auth/createuser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ const Signup = () => {
 
     setTimeout(async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch('https://gwbd6ngq-5000.inc1.devtunnels.ms/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -92,6 +93,7 @@ const Signup = () => {
 
         if (response.status === 200 && data.success) {
           setLoginMessage('Login successful!');
+          setShowChatLink(true)
           // Save authtoken to localStorage
           localStorage.setItem('authtoken', data.authtoken);
 
@@ -100,6 +102,7 @@ const Signup = () => {
         }
       } catch (error) {
         setLoginMessage('Login failed. Please try again later.');
+        setShowChatLink(false)
       } finally {
         setIsLoading(false);
       }
@@ -195,9 +198,7 @@ const Signup = () => {
                       {loginMessage.includes('successful') ? 'Success!' : 'Error!'}
                     </AlertTitle>
                     <AlertDescription>{loginMessage}<Text>
-                      
-                      <ChakraLink as={Link} color={'teal'} to={"chat"}>Go to Chats</ChakraLink>
-                      </Text>
+                      {showChatLink &&(<ChakraLink as={Link} color={'teal'} to={"chat"}>Go to Chats</ChakraLink>)}                      </Text>
                       </AlertDescription>
                     <CloseButton
                       onClick={() => setLoginMessage('')}

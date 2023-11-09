@@ -8,7 +8,7 @@ var fetchuser = require('../middleware/fetchuser');
 const bodyParser = require("body-parser");
 const client = require("twilio")(
   "AC6d994d5ab13dc6f37c68068bf96353dd",
-  "ca1d2fe8f2935968165ca5649270d6b0"
+  "64fe9b97f0fd73ca5e38d61bb34fd0ba"
 );
 
 
@@ -20,7 +20,7 @@ const JWT_SECRET = 'SECRET_WMA';
 // Endpoint for sending a verification code via SMS
 router.post("/sendotp", (req, res) => {
   const phoneNumber = req.body.phoneNumber; // Replace with your request data
-console.log(phoneNumber)
+
   client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
     .verifications.create({ to: phoneNumber, channel: "sms" })
     .then((verification) => {
@@ -33,20 +33,7 @@ console.log(phoneNumber)
     });
 });
 
-router.post("/verifyotp", (req, res) => {
-  const phoneNumber = req.body.phoneNumber; // Replace with your request data
-console.log(phoneNumber)
-  client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
-    .verifications.create({ to: phoneNumber, channel: "sms" })
-    .then((verification) => {
-      console.log(phoneNumber+verification.status);
-      res.json({ status: verification.status });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: "Failed to send verification code" });
-    });
-});
+
 
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
@@ -69,14 +56,13 @@ router.post("/createuser", [
     email,
     password,
     phoneNumber,
-    country,
+    countryRegion,
     streetAddress,
     city,
-    state,
-    zipCode,
+    stateProvince,
+    zipPostal,
     code
   } = req.body;
-
   // Check whether the user with this email exists already
   try {
     let user = await User.findOne({ phoneNumber });
@@ -87,6 +73,7 @@ router.post("/createuser", [
     // Verify the phone number with Twilio
     const twilioVerification = await client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
       .verificationChecks.create({ to: phoneNumber, code });
+
     if (twilioVerification.status === 'approved') {
       // Phone number is verified, proceed with user registration
       const salt = await bcrypt.genSalt(10);
@@ -97,11 +84,11 @@ router.post("/createuser", [
         name,
       username,
       address: {
-        countryRegion:country,
-        streetAddress:streetAddress,
+        countryRegion,
+        streetAddress,
         city,
-        stateProvince:state,
-        zipPostal:zipCode,
+        stateProvince,
+        zipPostal,
       },
         password: secPass,
         email,
@@ -189,7 +176,7 @@ router.post('/getuser', fetchuser,  async (req, res) => {
 router.post('/update',fetchuser, async (req, res) => {
   // If there are validation errors, return Bad request and the errors
   const { _id, updatedData } = req.body;
-  const userId=_id;
+const userId=_id;
   try {
     // Check if the user exists by their ID
     const user = await User.findById(userId);

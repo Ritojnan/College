@@ -17,3 +17,9 @@ public class DivisibleBy7 {
         System.out.println("Sum of integers divisible by 7: " + sum);
     }
 }
+
+
+//swapping without 3rd varible
+// x = x + y;
+// y = x - y;
+// x = x - y;

@@ -16,11 +16,11 @@ const ImageGallery = () => {
   async function getImage() {
     setLoading(true);
 
-    const result =await axios.get("http://localhost:5000/api/images/getimage");
+    const result =await axios.get("https://gwbd6ngq-5000.inc1.devtunnels.ms/api/images/getimage");
     console.log(result)
     setImages(result.data.data)
     setLoading(false)
-    // fetch('http://localhost:5000/api/images/getimage', {
+    // fetch('https://gwbd6ngq-5000.inc1.devtunnels.ms/api/images/getimage', {
     //   method: 'GET',
     // })
     //   .then((res) => res.json())
@@ -51,7 +51,7 @@ const ImageGallery = () => {
             console.log(image)
             return (
               
-              <img key={image._id} src={`http://localhost:5000/`+image.image} alt="data" />
+              <img key={image._id} src={`https://gwbd6ngq-5000.inc1.devtunnels.ms/`+image.image} alt="data" />
               
             )
           })

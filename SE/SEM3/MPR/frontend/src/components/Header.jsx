@@ -6,6 +6,7 @@ import {
   Tooltip,
   Button,
   Icon,
+  Divider,
 } from "@chakra-ui/react";
 import {
   Menu,
@@ -43,12 +44,34 @@ import {
   AlertDialogOverlay,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import InviteBody from "./InviteBody";
+import InviteInput from "./InviteInput";
+import UserDetails from "./UserDetails";
+import { useState } from "react";
+import GroupChatCreator from "./GroupChatCreator";
 export function Header(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const inviteModalDisclosure = useDisclosure();
+  const newChatModalDisclosure = useDisclosure();
+  const logoutModalDisclosure = useDisclosure();
+  const settingsModalDisclosure = useDisclosure();
+
   const cancelRef = useRef();
-  const openModal = () => {
-    console.log("NNN");
-    onOpen();
+
+  const initialUser = {
+    name: 'John Doe',
+    username: 'johndoe',
+    email: 'johndoe@example.com',
+    phoneNumber: '123-456-7890',
+    contactList: ['Friend 1', 'Friend 2'],
+    address: '123 Main St, City, State, Country, 12345',
+  };
+
+  const [user, setUser] = useState(initialUser);
+
+  const saveUserDetails = (updatedUser) => {
+    // Implement the API request to save updated user details
+    // For demonstration purposes, we'll update the user state
+    setUser(updatedUser);
   };
 
   return (
@@ -62,11 +85,7 @@ export function Header(props) {
       shadow="sm"
       {...props}
     >
-      <Avatar
-        boxSize="40px"
-        name="Enes Şahin"
-        src="https://randomuser.me/api/portraits/men/44.jpg"
-      />
+      <Avatar boxSize="40px" name="Enes Şahin" src="" />
       <HStack spacing="3">
         <Tooltip
           shouldWrapChildren
@@ -76,28 +95,22 @@ export function Header(props) {
           fontSize="xs"
         >
           <IconButton
-            onClick={openModal}
+            onClick={inviteModalDisclosure.onOpen}
             bg={"transparent"}
-            aria-label="New Chat"
+            aria-label="Invites"
             icon={<LuUserCircle2 size={22} />}
           />
         </Tooltip>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        {/* Modal for invites */}
+        <Modal isOpen={inviteModalDisclosure.isOpen} onClose={inviteModalDisclosure.onClose} scrollBehavior="inside">
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Create a New Chat or Group</ModalHeader>
+            <ModalHeader>Invites</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {/* Add your chat creation form or content here */}
-              This is where you can create a xxxxxxxxnew chat.
+              <InviteBody/>
             </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Closess
-              </Button>
-              {/* Add a button to submit the new chat */}
-              <Button variant="ghost">Create</Button>
-            </ModalFooter>
+            
           </ModalContent>
         </Modal>
 
@@ -109,23 +122,28 @@ export function Header(props) {
           fontSize="xs"
         >
           <IconButton
-            onClick={openModal}
+            onClick={newChatModalDisclosure.onOpen}
             bg={"transparent"}
             aria-label="New Chat"
             icon={<NewChatIcon />}
           />
         </Tooltip>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        {/* Modal for new chat */}
+        <Modal isOpen={newChatModalDisclosure.isOpen} onClose={newChatModalDisclosure.onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Create a New Chat</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {/* Add your chat creation form or content here */}
               This is where you can create a new chat.
+
+              <InviteInput/>
+              <Divider my={4}/>
+              <GroupChatCreator/>
+
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
+              <Button colorScheme="blue" mr={3} onClick={newChatModalDisclosure.onClose}>
                 Close
               </Button>
               {/* Add a button to submit the new chat */}
@@ -133,6 +151,7 @@ export function Header(props) {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
         <Tooltip
           shouldWrapChildren
           label="Menu"
@@ -145,44 +164,65 @@ export function Header(props) {
               <MenuIcon />
             </MenuButton>
             <MenuList>
-              <MenuItem>
+              <MenuItem onClick={settingsModalDisclosure.onOpen}>
                 <LuSettings size={16} />
                 &nbsp;Settings
               </MenuItem>
-              <MenuItem onClick={onOpen}>
+              <MenuItem onClick={newChatModalDisclosure.onOpen}>
                 <LuLogOut size={16} />
                 &nbsp; Log out
               </MenuItem>
             </MenuList>
-
           </Menu>
         </Tooltip>
       </HStack>
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-  <AlertDialogOverlay>
-    <AlertDialogContent>
-      <AlertDialogHeader>Log out</AlertDialogHeader>
-      <AlertDialogBody>
-        Are you sure you want to log out?
-      </AlertDialogBody>
-      <AlertDialogFooter>
-        <Button ref={cancelRef} onClick={onClose}>
-          Cancel
-        </Button>
-        <Button colorScheme="red" onClick={
-          () => {
-            localStorage.removeItem("authtoken");
-            location.reload();
-          }
-        }>
-          Confirm
-        </Button>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialogOverlay>
-</AlertDialog>
+      {/* Alert for logout */}
+      <AlertDialog
+        isOpen={logoutModalDisclosure.isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={logoutModalDisclosure.onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader>Log out</AlertDialogHeader>
+            <AlertDialogBody>Are you sure you want to log out?</AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={logoutModalDisclosure.onClose}>
+                Cancel
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  localStorage.removeItem("authtoken");
+                  location.reload();
+                }}
+              >
+                Confirm
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
+{/* modal for seetings */}
+      <Modal size={"full"} isOpen={settingsModalDisclosure.isOpen} onClose={settingsModalDisclosure.onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Settings</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+            <UserDetails user={user} onSave={saveUserDetails} />
+              </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={settingsModalDisclosure.onClose}>
+                Close
+              </Button>
+              {/* Add a button to submit the new chat */}
+              <Button variant="ghost">Create</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
     </Flex>
   );
 }

@@ -37,7 +37,6 @@ const mockData = [
   {
     name: 'Annem',
     username: '',
-
     src: 'https://randomuser.me/api/portraits/women/7.jpg',
     message: 'İlaçlarını içmeyi unutma sakın',
     date: 'Pazartesi',
@@ -210,10 +209,6 @@ export function LeftPanel(props) {
         pr="1"
         divider={<StackDivider w="82%" alignSelf="flex-end" />}
         flex='1' overflow='auto'      >
-
-        {/* {filteredData.map(person => (
-      <SideCard key={person.id} person={person} />
-    ))} */}
         {filteredData.map((item, index) => (
           <Chat
             key={index}

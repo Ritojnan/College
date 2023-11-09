@@ -17,7 +17,7 @@ export default function ImageUpload() {
   }
 
   function uploadImage() {
-    fetch('http://localhost:5000/api/images/uploadimage', {
+    fetch('https://gwbd6ngq-5000.inc1.devtunnels.ms/api/images/uploadimage', {
       method: 'POST',
       crossDomain: true,
       headers: {
@@ -41,7 +41,7 @@ export default function ImageUpload() {
     formData.append("image",image)
 
     const result = await axios.post(
-      "http://localhost:5000/api/images/uploadimage",
+      "https://gwbd6ngq-5000.inc1.devtunnels.ms/api/images/uploadimage",
       formData,
       {
         headers:{"Content-Type":"multipart/form-data"}
@@ -105,7 +105,7 @@ export default function ImageUpload() {
 //     formData.append('image', selectedFile);
 
 //     try {
-//       const response = await fetch('http://localhost:5000/api/upload', {
+//       const response = await fetch('https://gwbd6ngq-5000.inc1.devtunnels.ms/api/upload', {
 //         method: 'POST',
 //         body: formData,
 //       });

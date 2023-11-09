@@ -41,7 +41,7 @@ class Form extends Frame implements ActionListener {
         l4.setForeground(new Color(0, 102, 204)); // Dark blue
 
 
-        setLayout(new GridLayout(6, 2));
+        setLayout(new GridLayout(5, 2));
 
         add(l1);
         add(tf1);

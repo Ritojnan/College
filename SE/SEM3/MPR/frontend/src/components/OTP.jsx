@@ -16,24 +16,49 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { PinInput, PinInputField } from '@chakra-ui/react';
-
+import axios from 'axios';
 export default function VerifyEmailForm(props) {
   const [loading, setLoading] = useState(false); // State to manage loading state
   const [otp, setOtp] = useState(''); // State to store OTP input
   const [showSuccessAlert, setShowSuccessAlert] = useState(false); // State to control the success alert
-
   const verifyOtp = () => {
+    var requestbody = props.reqData;
+    requestbody["code"] = otp;
+    console.log(requestbody);
+  
     // Simulate a delay for 1 second before proceeding
     setLoading(true);
     setTimeout(() => {
-      console.log('OTP:', otp); // Log the OTP
-      setLoading(false);
-
-      // You can make your API request here, and based on the response, show either success or error alert.
-      // For now, we will directly show a success alert.
-      setShowSuccessAlert(true);
+      // Construct the request payload
+      const requestUrl = "https://gwbd6ngq-5000.inc1.devtunnels.ms/api/auth/createuser";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Set the appropriate content type
+        },
+        body: JSON.stringify(requestbody), // Convert requestbody to JSON
+      };
+  
+      fetch(requestUrl, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Account created successfully:", data.authtoken);
+          setShowSuccessAlert(true);
+        })
+        .catch((error) => {
+          console.error("Error sending OTP request:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }, 1000);
   };
+  
 
   return (
     
@@ -60,12 +85,14 @@ export default function VerifyEmailForm(props) {
           fontSize={{ base: 'sm', sm: 'md' }}
           fontWeight="bold"
           color={useColorModeValue('gray.800', 'gray.400')}>
-          +91 ....//props
+          {props.phoneNumber}
         </Center>
         <FormControl>
           <Center>
             <HStack>
               <PinInput value={otp} onChange={(value) => setOtp(value)}>
+                <PinInputField />
+                <PinInputField />
                 <PinInputField />
                 <PinInputField />
                 <PinInputField />

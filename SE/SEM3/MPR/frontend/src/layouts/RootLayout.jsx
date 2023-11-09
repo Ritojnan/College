@@ -5,6 +5,11 @@ import { useEffect } from "react";
 export default function RootLayout() {
   const navigate = useNavigate();
   useEffect(() => {
+    //get current route path name from react router dom
+    const path = window.location.pathname;
+    //check path name has register in end
+    if (path.endsWith("/register")) {return}
+
     const authtoken = localStorage.getItem('authtoken'); // Replace 'yourKey' with the key of the item you want to retrieve
 
 if (authtoken == null) {
