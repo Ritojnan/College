@@ -168,7 +168,7 @@ export function Header(props) {
                 <LuSettings size={16} />
                 &nbsp;Settings
               </MenuItem>
-              <MenuItem onClick={newChatModalDisclosure.onOpen}>
+              <MenuItem onClick={logoutModalDisclosure.onOpen}>
                 <LuLogOut size={16} />
                 &nbsp; Log out
               </MenuItem>

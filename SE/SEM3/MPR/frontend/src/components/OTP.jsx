@@ -14,6 +14,7 @@ import {
   Stack,
   useColorModeValue,
   HStack,
+  Badge,
 } from '@chakra-ui/react';
 import { PinInput, PinInputField } from '@chakra-ui/react';
 import axios from 'axios';
@@ -30,7 +31,7 @@ export default function VerifyEmailForm(props) {
     setLoading(true);
     setTimeout(() => {
       // Construct the request payload
-      const requestUrl = "https://gwbd6ngq-5000.inc1.devtunnels.ms/api/auth/createuser";
+      const requestUrl = "http://localhost:5000/api/auth/createuser";
       const requestOptions = {
         method: "POST",
         headers: {
@@ -121,9 +122,12 @@ export default function VerifyEmailForm(props) {
               <AlertIcon />
               <AlertTitle>
                 Congratulation! Your account is verified.
+                <Badge>
+
                 <ChakraLink as={Link} to="/chat">
                   Go to Chat
                 </ChakraLink>
+                </Badge>
               </AlertTitle>
             </Alert>
           ) : null}

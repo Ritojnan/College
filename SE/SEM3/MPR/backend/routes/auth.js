@@ -8,35 +8,68 @@ var fetchuser = require('../middleware/fetchuser');
 const bodyParser = require("body-parser");
 const client = require("twilio")(
   "AC6d994d5ab13dc6f37c68068bf96353dd",
-  "ca1d2fe8f2935968165ca5649270d6b0"
+  "5f6a4c0b6f9c9b9b9b9b9b9b9b9b9b9"
 );
+const fast2sms=require("fast-two-sms")
 
 
+//otp generation function 
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 
 const JWT_SECRET = 'SECRET_WMA';
 
 
 
 // Endpoint for sending a verification code via SMS
-router.post("/sendotp", (req, res) => {
+router.post("/sendotp",async (req, res) => {
   const phoneNumber = req.body.phoneNumber; // Replace with your request data
+  if (!phoneNumber) {
+    return res.status(400).json({ error: 'Phone number is required' });
+  }
+
+  
 console.log(phoneNumber)
-  client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
-    .verifications.create({ to: phoneNumber, channel: "sms" })
-    .then((verification) => {
-      console.log(phoneNumber+verification.status);
-      res.json({ status: verification.status });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: "Failed to send verification code" });
-    });
+
+try {
+  const otp = generateOTP(); 
+
+  const options = {
+    authorization: 'YOUR_API_KEY', // Replace with your Fast2SMS API key
+    message: `Your OTP is ${otp}`,
+    numbers: [phoneNumber],
+  };
+
+  const fast2smsResponse = await fast2sms.sendMessage(options);
+
+  if (fast2smsResponse.status === 'OK') {
+    res.json({ success: true, message: 'OTP sent successfully' });
+  } else {
+    res.status(500).json({ error: 'Failed to send OTP' });
+  }
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ error: 'Internal server error' });
+}
+
+
+  // client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
+  //   .verifications.create({ to: phoneNumber, channel: "sms" })
+  //   .then((verification) => {
+  //     console.log(phoneNumber+verification.status);
+  //     res.json({ status: verification.status });
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //     res.status(500).json({ error: "Failed to send verification code" });
+  //   });
 });
 
 router.post("/verifyotp", (req, res) => {
   const phoneNumber = req.body.phoneNumber; // Replace with your request data
 console.log(phoneNumber)
-  client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
+  client.verify.v2.services("YOUR_SERVICE_ID")
     .verifications.create({ to: phoneNumber, channel: "sms" })
     .then((verification) => {
       console.log(phoneNumber+verification.status);
@@ -85,7 +118,7 @@ router.post("/createuser", [
     }
 
     // Verify the phone number with Twilio
-    const twilioVerification = await client.verify.v2.services("VA5e3d558ca9101e2a758de31fc615a074")
+    const twilioVerification = await client.verify.v2.services("YOUR_SERVICE_ID")
       .verificationChecks.create({ to: phoneNumber, code });
     if (twilioVerification.status === 'approved') {
       // Phone number is verified, proceed with user registration

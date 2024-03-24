@@ -76,6 +76,7 @@ struct Node* insertEnd(struct Node* head, int val) {
     return head;
 }
 
+
 struct Node* deleteEnd(struct Node* head) {
     if (head == NULL) {
         printf("List is empty");

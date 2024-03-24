@@ -89,7 +89,7 @@ export default function Multistep() {
   };
   const sendOTPRequest = (phoneNumber) => {
     // Replace with your request URL
-    const requestUrl = "https://gwbd6ngq-5000.inc1.devtunnels.ms/api/auth/sendotp";
+    const requestUrl = "http://localhost:5000/api/auth/sendotp";
 
     // You can customize the request headers and data as needed
     const requestData = {
@@ -242,7 +242,7 @@ export default function Multistep() {
                 >
                   User Details
                 </Heading>
-                <FormControl as={GridItem} colSpan={[6, 3]} isReq>
+                <FormControl as={GridItem} isRequired colSpan={[6, 3]} isReq>
                   <FormLabel
                     htmlFor="country"
                     fontSize="sm"
@@ -280,7 +280,7 @@ export default function Multistep() {
                   </Select>
                 </FormControl>
 
-                <FormControl as={GridItem} colSpan={6}>
+                <FormControl as={GridItem} colSpan={6} isRequired>
                   <FormLabel
                     htmlFor="street_address"
                     fontSize="sm"
@@ -308,7 +308,7 @@ export default function Multistep() {
                   />
                 </FormControl>
 
-                <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
+                <FormControl as={GridItem} colSpan={[6, 6, null, 2]} isRequired>
                   <FormLabel
                     htmlFor="city"
                     fontSize="sm"
@@ -336,7 +336,7 @@ export default function Multistep() {
                   />
                 </FormControl>
 
-                <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
+                <FormControl as={GridItem} colSpan={[6, 3, null, 2]} isRequired>
                   <FormLabel
                     htmlFor="state"
                     fontSize="sm"
@@ -364,7 +364,7 @@ export default function Multistep() {
                   />
                 </FormControl>
 
-                <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
+                <FormControl as={GridItem} colSpan={[6, 3, null, 2]} isRequired>
                   <FormLabel
                     htmlFor="zipCode"
                     fontSize="sm"

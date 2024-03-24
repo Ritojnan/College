@@ -34,9 +34,6 @@ const UserDetails = ({ user, onSave }) => {
 
   return (
     <Box p={6} borderWidth="1px" borderRadius="lg" boxShadow="lg">
-      <Heading as="h2" size="lg" mb={4}>
-        User Details
-      </Heading>
       {isEditing ? (
         <Button
           colorScheme="teal"
@@ -48,7 +45,7 @@ const UserDetails = ({ user, onSave }) => {
         </Button>
       ) : (
         <Button
-          colorScheme="teal"
+          colorScheme="orange"
           size="sm"
           mb={4}
           onClick={toggleEdit}
@@ -111,6 +108,7 @@ const UserDetails = ({ user, onSave }) => {
         <Text fontWeight="bold">Address:</Text>
         <Input
           name="address"
+          type="textarea"
           value={editedUser.address}
           onChange={handleInputChange}
           isReadOnly={!isEditing}

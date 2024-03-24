@@ -6,7 +6,7 @@ import ChatWindow from '../components/ChatWindow';
 import { Box, Divider, VStack, Flex,Text, IconButton, Input, Center } from "@chakra-ui/react";
 import { MdSend } from 'react-icons/md'; // Changed the icon to MdSend
 
-const socket = io.connect('https://gwbd6ngq-5000.inc1.devtunnels.ms'); // Replace with your server URL
+const socket = io.connect('http://localhost:5000/'); // Replace with your server URL
 
 export default function ChatLayout() {
   const { id } = useParams();
