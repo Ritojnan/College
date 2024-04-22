@@ -1,3 +1,6 @@
+// Quick Sort
+// Time Complexity: O(nlogn)
+// Space Complexity: O(logn)
 #include<stdio.h>
 void swap(int *a,int *b){
 	int c;
