@@ -1,6 +1,7 @@
 import tkinter as tk
 from itertools import product
 
+# Constraint
 def is_magic_square(square):
     n = len(square)
     magic_sum = n * (n**2 + 1) // 2
@@ -12,26 +13,21 @@ def is_magic_square(square):
         return False
     return True
 
+# Backtracking
 def solve_magic_square(square):
     n = len(square)
-    magic_sum = n * (n**2 + 1) // 2
-    # Flatten the square to a list of cells
-    cells = [cell for row in square for cell in row]
-    # Find the cells without a value (marked as 0)
     empty_cells = [(i, j) for i, j in product(range(n), repeat=2) if square[i][j] == 0]
-    # Define a recursive function to solve the magic square
+    print(empty_cells)
     def solve_recursive(index):
         if index == len(empty_cells):
             return is_magic_square(square)
         row, col = empty_cells[index]
-        # Try filling the cell with different numbers
         for num in range(1, n**2 + 1):
             square[row][col] = num
             if solve_recursive(index + 1):
                 return True
         square[row][col] = 0
         return False
-    # Start solving from the first empty cell
     if solve_recursive(0):
         return square
     else:

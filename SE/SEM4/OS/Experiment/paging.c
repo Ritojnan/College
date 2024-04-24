@@ -37,7 +37,8 @@ int main() {
     printf("   Size of process = %d KB or %d bytes - %d bits in logical address\n", processSize_kb, processSize_kb * 1024, logicalAddressBits);
     printf("   Distribution: %d bits (page no field) and %d bits (offset)\n", pageBits, offsetBits);
     
-    PageTableEntry pageTable[MAX];
+    PageTableEntry pageTable[pageTableEntries];
+    
     printf("Page Table:\n");
     printf("Page No\t\t Frame No\t Valid\t\n");
     for(int i=0; i<pageTableEntries; i++) {
